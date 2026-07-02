@@ -73,28 +73,18 @@ Le pipeline utilise un échantillon versionné. Pour les vrais CSV labellisés :
 
 ---
 
-## 4. Reconstituer le dépôt git puis publier sur GitHub
+## 4. Publier le code sur GitHub
 
-L'historique complet (18 commits, style étudiant, conventional commits) a été créé
-et archivé dans **`checkitai_history.bundle`** (à la racine du projet). Il n'a pas pu
-être posé directement en `.git` car Google Drive maintenait un verrou sur ce dossier
-pendant la session (synchronisation en cours). Pour le reconstituer en local :
+Le dépôt git **est en place dans le projet** : l'historique complet (**27 commits
+dont 8 merges de branches `feat/*`, en git-flow**, conventional commits, auteur
+*Benoit Girard*) est présent. Vérifie-le :
 
-1. **Si un dossier `.git` fantôme/verrouillé existe encore**, ferme les applications
-   qui synchronisent le dossier (ou redémarre la machine), puis supprime-le :
-   ```powershell
-   Remove-Item -Recurse -Force .git   # uniquement s'il existe et qu'il pose problème
-   ```
-2. Reconstitue l'historique depuis le bundle (récupère les 18 commits) :
-   ```powershell
-   git init -b main
-   git pull checkitai_history.bundle main
-   ```
-   Le répertoire de travail est déjà aligné sur le dernier commit ; `git status`
-   doit être propre (seuls les artefacts ignorés restent non suivis).
-3. (Optionnel) Vérifie : `git log --oneline` doit afficher les 18 commits.
+```powershell
+git log --graph --oneline   # doit afficher les 27 commits et les 8 merges
+git status                  # propre (seuls les artefacts ignorés sont non suivis)
+```
 
-Ensuite, publie sur GitHub :
+Puis publie sur GitHub :
 
 1. Crée un dépôt vide sur GitHub (ex. `checkitai`), **sans** README.
 2. Connecte et pousse :
@@ -104,8 +94,12 @@ Ensuite, publie sur GitHub :
    ```
 
 > `.env`, `data/`, `.venv/`, l'archive de livrables et `checkitai_history.bundle`
-> sont déjà exclus par `.gitignore` : aucune clé ni donnée volumineuse ne sera
-> publiée.
+> sont déjà exclus par `.gitignore` : aucune clé ni donnée volumineuse ne sera publiée.
+
+> **Sauvegarde** : `checkitai_history.bundle` (à la racine, git-ignoré) contient tout
+> l'historique. Si le dossier `.git` était un jour perdu/corrompu (verrou Google
+> Drive), reconstitue-le avec : `git init -b main` puis
+> `git fetch checkitai_history.bundle main` et `git reset --mixed FETCH_HEAD`.
 
 ---
 
