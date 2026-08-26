@@ -185,7 +185,7 @@ def main() -> None:
             "• Une table par entité du schéma, reliées par id et source_id.",
             "• Plus une table à plat, prête pour l'entraînement et le tableau de bord.",
             "• Chargement incrémental : seules les publications inconnues sont ajoutées.",
-            "   Deuxième exécution : 179 collectées, 14 réellement nouvelles.",
+            "   Deuxième exécution : 179 collectées, 11 réellement nouvelles.",
             "• Sécurité : pas de secret en dur, rôle applicatif limité, noms de tables validés.",
         ],
     )
@@ -218,10 +218,10 @@ def main() -> None:
         prs,
         "Résultats d'une exécution réelle",
         [
-            "• 179 publications collectées auprès des 4 sources, 130 retenues.",
-            "• 100 % d'association texte-image ; 92 % des images demandées obtenues.",
-            "• Âge médian des publications : 16 heures.",
-            "• Pipeline complet en 60 secondes, 1 appel d'API consommé, 4 Mo d'images.",
+            "• 179 publications collectées auprès des 4 sources, 134 retenues.",
+            "• 100 % d'association texte-image ; 98 % des images demandées obtenues.",
+            "• Âge médian des publications : 17 heures.",
+            "• Pipeline complet en 60 secondes, 1 appel d'API consommé, 11 Mo d'images.",
             "• DAG exécuté dans Airflow : 5 tâches en succès, DagRun en state=success.",
         ],
     )
