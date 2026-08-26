@@ -172,6 +172,7 @@ def notebook_exploration() -> None:
         ),
         code(
             "import pandas as pd\n"
+            "\n"
             "from checkitai.sources import kaggle_fakeddit\n"
             "\n"
             "publications_kaggle = kaggle_fakeddit.fetch_fakeddit(config)\n"
@@ -254,6 +255,7 @@ def notebook_extraction() -> None:
         md("Le couple texte / image, affiché tel qu'il sera donné au modèle :"),
         code(
             "from IPython.display import Image, display\n"
+            "\n"
             "from checkitai.config import chemin_absolu\n"
             "\n"
             "print(exemple['title'])\n"
@@ -269,6 +271,7 @@ def notebook_extraction() -> None:
         ),
         code(
             "import json\n"
+            "\n"
             "from checkitai.extract import save_raw\n"
             "\n"
             "chemin_brut = save_raw(publications)\n"
@@ -301,8 +304,8 @@ def notebook_transformation() -> None:
         ),
         code(
             "from checkitai.transform import (\n"
-            "    nettoie_texte,\n"
             "    extrait_domaine,\n"
+            "    nettoie_texte,\n"
             "    normalise_date,\n"
             "    normalise_label,\n"
             ")\n"
@@ -333,7 +336,7 @@ def notebook_transformation() -> None:
         md("## 3. Lecture → traitement → export"),
         code(
             "from checkitai.config import RAW_DIR, TransformConfig\n"
-            "from checkitai.transform import lit_brut, traite, exporte\n"
+            "from checkitai.transform import exporte, lit_brut, traite\n"
             "\n"
             "config = TransformConfig()\n"
             "dernier_brut = sorted(RAW_DIR.glob('raw_publications_*.json'))[-1]\n"
@@ -452,6 +455,7 @@ def notebook_kpi() -> None:
         ),
         code(
             "import pandas as pd\n"
+            "\n"
             "from checkitai.kpi import evalue_seuils\n"
             "\n"
             "pd.DataFrame(evalue_seuils(kpis))[\n"
