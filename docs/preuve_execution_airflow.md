@@ -37,46 +37,46 @@ Cinq tâches distinctes, une par étape du pipeline.
 $ airflow dags test checkitai_etl 2026-08-20
 ```
 
-Extrait des journaux — les lignes de progression d'Airflow ont été conservées, les lignes
-de débogage retirées.
+Extrait des journaux — les lignes de progression d'Airflow sont conservées, les lignes de
+débogage retirées.
 
 ```
 [DAG TEST] starting task_id=extraction map_index=-1
 checkitai.pipeline   | === ÉTAPE 1 — EXTRACTION ===
 checkitai.extract    | Extraction : source 'rss' -> 97 publications
 checkitai.extract    | Extraction : source 'newsdata' -> 10 publications
-checkitai.opengraph  | Open Graph : 13 images retrouvées sur 40 articles consultés
+checkitai.opengraph  | Open Graph : 11 images retrouvées sur 40 articles consultés
 checkitai.extract    | Extraction : source 'fakenewsnet' -> 48 publications
 checkitai.extract    | Extraction : source 'kaggle_fakeddit' -> 24 publications
 checkitai.extract    | Extraction : 179 publications brutes au total
-checkitai.images     | Images : 116 téléchargées, 4 échecs, 59 ignorées (3.2 Mo sur disque)
-checkitai.extract    | Extraction : 179 publications écrites dans data/raw/raw_publications_20260820_093505.json
+checkitai.images     | Images : 136 téléchargées, 5 échecs, 38 ignorées (10.8 Mo sur disque)
+checkitai.extract    | Extraction : 179 publications écrites dans data/raw/raw_publications_20260820_101629.json
 checkitai.transit    | Transit : 'extraction.json' déposé pour l'étape suivante
 Marking task as SUCCESS. task_id=extraction
 
 [DAG TEST] starting task_id=transformation map_index=-1
 checkitai.pipeline   | === ÉTAPE 2 — TRANSFORMATION ===
 checkitai.transform  | Transformation : 179 publications brutes lues
-checkitai.transform  | Transformation : 114/179 publications valides après nettoyage
+checkitai.transform  | Transformation : 134/179 publications valides après nettoyage
 checkitai.transform  | Transformation : 0 doublons retirés
-checkitai.transform  | Transformation : dataset de 114 lignes exporté vers data/processed/publications_20260820_093506.parquet
+checkitai.transform  | Transformation : dataset de 134 lignes exporté vers data/processed/publications_20260820_101630.parquet
 checkitai.transit    | Transit : 'dataset.parquet' déposé pour l'étape suivante
 Marking task as SUCCESS. task_id=transformation
 
 [DAG TEST] starting task_id=chargement map_index=-1
 checkitai.pipeline   | === ÉTAPE 3 — CHARGEMENT ===
-checkitai.load       | Chargement : 114 lignes ajoutées dans 'publication'
-checkitai.load       | Chargement : 6 lignes ajoutées dans 'source'
-checkitai.load       | Chargement : 114 lignes ajoutées dans 'contenu_texte'
-checkitai.load       | Chargement : 114 lignes ajoutées dans 'contenu_image'
-checkitai.load       | Chargement : 18 lignes ajoutées dans 'label'
-checkitai.load       | Chargement : 114 lignes ajoutées dans 'publications'
-checkitai.load       | Chargement : 114 nouvelles publications, 0 déjà présentes
+checkitai.load       | Chargement : 134 lignes ajoutées dans 'publication'
+checkitai.load       | Chargement : 7 lignes ajoutées dans 'source'
+checkitai.load       | Chargement : 134 lignes ajoutées dans 'contenu_texte'
+checkitai.load       | Chargement : 134 lignes ajoutées dans 'contenu_image'
+checkitai.load       | Chargement : 28 lignes ajoutées dans 'label'
+checkitai.load       | Chargement : 134 lignes ajoutées dans 'publications'
+checkitai.load       | Chargement : 134 nouvelles publications, 0 déjà présentes
 Marking task as SUCCESS. task_id=chargement
 
 [DAG TEST] starting task_id=metriques map_index=-1
 checkitai.pipeline   | === ÉTAPE 4 — MÉTRIQUES ===
-checkitai.pipeline   | Métriques : fiche d'exécution écrite dans data/processed/runs/run_20260820_093506.json
+checkitai.pipeline   | Métriques : fiche d'exécution écrite dans data/processed/runs/run_20260820_101630.json
 Marking task as SUCCESS. task_id=metriques
 
 [DAG TEST] starting task_id=nettoyage map_index=-1
@@ -89,8 +89,8 @@ state=success, run_type=manual
 ```
 
 Les cinq tâches sont en `SUCCESS` et le `DagRun` se termine en `state=success`. Les
-quatre sources ont contribué, 116 images ont été téléchargées, et la zone de transit a
-été vidée par la dernière tâche.
+quatre sources ont contribué, 136 images ont été téléchargées, les six tables du modèle
+relationnel ont été peuplées, et la zone de transit a été vidée par la dernière tâche.
 
 ---
 
@@ -107,31 +107,31 @@ $ airflow tasks test checkitai_etl transformation 2026-08-20
 ```
 airflow.task         | Executing <Task(PythonOperator): transformation> on 2026-08-20
 checkitai.pipeline   | === ÉTAPE 2 — TRANSFORMATION ===
-checkitai.transit    | Transit : 'extraction.json' absent, reprise de l'archive raw_publications_20260820_093505.json
+checkitai.transit    | Transit : 'extraction.json' absent, reprise de l'archive raw_publications_20260820_101629.json
 checkitai.transform  | Transformation : 179 publications brutes lues
-checkitai.transform  | Transformation : 114/179 publications valides après nettoyage
-checkitai.transform  | Transformation : dataset de 114 lignes exporté vers data/processed/publications_20260820_093518.parquet
+checkitai.transform  | Transformation : 134/179 publications valides après nettoyage
+checkitai.transform  | Transformation : dataset de 134 lignes exporté vers data/processed/publications_20260820_101643.parquet
 checkitai.transit    | Transit : 'dataset.parquet' déposé pour l'étape suivante
 Marking task as SUCCESS. task_id=transformation
 ```
 
-La tâche a détecté l'absence du fichier de transit, est repartie de la dernière extraction
-archivée, et s'est terminée en succès — **sans rejouer l'extraction**, qui prend une
-trentaine de secondes et consomme un appel d'API.
+La tâche a détecté l'absence du fichier de transit, est repartie de la dernière
+extraction archivée, et s'est terminée en succès — **sans rejouer l'extraction**, qui
+prend une minute et consomme un appel d'API.
 
 ---
 
 ## 4. Chargement incrémental
 
-Une seconde exécution, lancée derrière celle-ci, ne recharge pas les mêmes données :
+Une seconde exécution ne recharge pas les mêmes données :
 
 ```
 [ok] publications extraites  : 179
-[ok] nouvelles en base       : 9
-[ok] total accumulé en base  : 123
+[ok] nouvelles en base       : 11
+[ok] total accumulé en base  : 148
 ```
 
-Sur 179 publications collectées, seules 9 étaient absentes de la base — les flux RSS
+Sur 179 publications collectées, seules 11 étaient absentes de la base — les flux RSS
 n'avaient publié que quelques articles entre les deux exécutions. Le jeu de données
 s'enrichit au fil des exécutions quotidiennes, sans doublon et sans écraser l'historique.
 

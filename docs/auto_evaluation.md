@@ -50,7 +50,7 @@ Chaque indicateur de réussite est coché et documenté par l'artefact correspon
 
 | ☑ | Indicateur | Notes / preuve |
 |:--:|---|---|
-| ☑ | Mon DAG s'exécute sans erreur dans Airflow. | Airflow 2.10.4 : 5 tâches en `SUCCESS`, `DagRun state=success`, 114 publications chargées. Journaux dans `docs/preuve_execution_airflow.md`. |
+| ☑ | Mon DAG s'exécute sans erreur dans Airflow. | Airflow 2.10.4 : 5 tâches en `SUCCESS`, `DagRun state=success`, 134 publications chargées. Journaux dans `docs/preuve_execution_airflow.md`. |
 | ☑ | Mes tâches sont bien séparées. | 5 `PythonOperator` : `extraction` → `transformation` → `chargement` → `metriques` → `nettoyage`. Elles s'échangent leurs résultats par fichiers, jamais par XCom : **chacune est relançable seule**, preuve à l'appui (§3 de la preuve d'exécution). |
 
 ## Définir des indicateurs de performance pertinents
