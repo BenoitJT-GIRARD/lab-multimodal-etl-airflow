@@ -13,7 +13,7 @@ Chaque indicateur de réussite est coché et documenté par l'artefact correspon
 |:--:|---|---|
 | ☑ | Mon rapport est structuré avec des sections claires. | `docs/rapport_exploration_sources.md`, 7 sections. |
 | ☑ | J'ai utilisé le format attendu : Markdown ou PDF. | Markdown. |
-| ☑ | J'ai collecté des données d'au moins 3 sources différentes. | **4 sources intégrées**, par 4 méthodes d'accès distinctes : flux RSS (3 éditeurs), API NewsData.io, dépôt GitHub FakeNewsNet, jeu Kaggle Fakeddit. |
+| ☑ | J'ai collecté des données d'au moins 3 sources différentes. | **4 sources intégrées**, par 4 méthodes d'accès distinctes : flux RSS (3 éditeurs), API NewsData.io, dépôt GitHub FakeNewsNet, jeu Kaggle Fakeddit. Toutes exploitent des données réelles. |
 | ☑ | J'ai identifié et décrit des formats adaptés au traitement/stockage. | §6 : JSON + fichiers image pour le brut, Parquet pour le jeu transformé, base relationnelle pour le stockage — chaque choix argumenté. |
 
 ### Scripts d'extraction automatisée
@@ -50,7 +50,7 @@ Chaque indicateur de réussite est coché et documenté par l'artefact correspon
 
 | ☑ | Indicateur | Notes / preuve |
 |:--:|---|---|
-| ☑ | Mon DAG s'exécute sans erreur dans Airflow. | Airflow 2.10.4 : 5 tâches en `SUCCESS`, `DagRun state=success`, 134 publications chargées. Journaux dans `docs/preuve_execution_airflow.md`. |
+| ☑ | Mon DAG s'exécute sans erreur dans Airflow. | Airflow 2.10.4 : 5 tâches en `SUCCESS`, `DagRun state=success`. Journaux **et captures d'écran** de l'interface dans `docs/preuve_execution_airflow.md` et `reports/figures/airflow/`. |
 | ☑ | Mes tâches sont bien séparées. | 5 `PythonOperator` : `extraction` → `transformation` → `chargement` → `metriques` → `nettoyage`. Elles s'échangent leurs résultats par fichiers, jamais par XCom : **chacune est relançable seule**, preuve à l'appui (§3 de la preuve d'exécution). |
 
 ## Définir des indicateurs de performance pertinents

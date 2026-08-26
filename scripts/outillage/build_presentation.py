@@ -218,10 +218,10 @@ def main() -> None:
         prs,
         "Résultats d'une exécution réelle",
         [
-            "• 179 publications collectées auprès des 4 sources, 134 retenues.",
-            "• 100 % d'association texte-image ; 98 % des images demandées obtenues.",
-            "• Âge médian des publications : 17 heures.",
-            "• Pipeline complet en 60 secondes, 1 appel d'API consommé, 11 Mo d'images.",
+            "• 205 publications collectées auprès des 4 sources, 143 retenues.",
+            "• 100 % d'association texte-image ; 97 % des images demandées obtenues.",
+            "• Âge médian des publications : 17 heures ; 6 sources distinctes.",
+            "• Pipeline complet en 66 secondes, 1 appel d'API consommé.",
             "• DAG exécuté dans Airflow : 5 tâches en succès, DagRun en state=success.",
         ],
     )
