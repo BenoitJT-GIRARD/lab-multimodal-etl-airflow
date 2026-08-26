@@ -55,11 +55,23 @@ SOURCE_ITEMS: tuple[str, ...] = (
     "LICENSE",
 )
 
+# Jamais recopié sous source/ : bytecode et caches (qui embarquent les chemins absolus
+# de la machine de développement), et les fichiers d'environnement locaux. Seuls les
+# `.env.example` sont livrés — le motif `.env` ne les capture pas.
+EXCLUSIONS = shutil.ignore_patterns(
+    "__pycache__",
+    "*.pyc",
+    ".env",
+    ".ipynb_checkpoints",
+    ".pytest_cache",
+    ".ruff_cache",
+)
+
 
 def _copie(src: Path, dst: Path) -> None:
-    """Copie un fichier ou un dossier."""
+    """Copie un fichier ou un dossier, en écartant bytecode, caches et `.env`."""
     if src.is_dir():
-        shutil.copytree(src, dst, dirs_exist_ok=True)
+        shutil.copytree(src, dst, dirs_exist_ok=True, ignore=EXCLUSIONS)
     else:
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
