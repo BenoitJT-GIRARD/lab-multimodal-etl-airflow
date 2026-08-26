@@ -102,8 +102,7 @@ uv run bandit -c pyproject.toml -r src
 | 6 | Tableau de bord KPI | `dashboard/app.py`, `notebooks/04_kpi.ipynb` |
 | 7 | Plan de monitoring | `docs/plan_monitoring.md` |
 
-L'archive de dépôt est produite par `scripts/package_deliverables.py`.
-Le déroulé de la démonstration est dans `docs/scenario_demonstration.md`.
+L'archive de dépôt est dans `reports/Girard_Benoit_12_202600820/`.
 
 ## Licence
 
