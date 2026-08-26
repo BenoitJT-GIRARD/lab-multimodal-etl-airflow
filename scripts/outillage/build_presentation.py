@@ -1,12 +1,14 @@
-"""Construit le support de soutenance (livrable de présentation).
+"""Construit le support de soutenance.
 
-Génère un diaporama PowerPoint résumant le projet pour la session de bilan avec le
-mentor : contexte, architecture du pipeline, déroulé des cinq étapes, résultats
-réels et bilan. Construit programmatiquement avec ``python-pptx`` pour rester
-reproductible.
+⚠️ **Script d'outillage.** Il ne fait pas partie du pipeline — voir
+`scripts/outillage/README.md`.
+
+Génère un diaporama PowerPoint résumant le projet pour la session de bilan :
+contexte, architecture du pipeline, déroulé des étapes, résultats réels et bilan.
+Le fichier produit reste modifiable dans PowerPoint.
 
 Usage :
-    uv run python scripts/build_presentation.py
+    uv run python scripts/outillage/build_presentation.py
 """
 
 from __future__ import annotations
@@ -17,7 +19,7 @@ from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.util import Inches, Pt
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 REPORTS_DIR = ROOT / "reports"
 SCHEMA_PNG = ROOT / "docs" / "schema_donnees.png"
 
@@ -124,103 +126,124 @@ def main() -> None:
     )
     slide_contenu(
         prs,
-        "Contexte & mission",
+        "Le problème à résoudre",
         [
-            "• CheckItAI : start-up de détection automatique de désinformation.",
-            "• Besoin : alimenter un détecteur multimodal (texte + image) en données fraîches et fiables.",
-            "• Mission : concevoir un pipeline ETL automatisé — extraction, transformation, chargement.",
-            "• Rôle : ingénieur data junior, en autonomie, du sourcing jusqu'au monitoring.",
+            "• CheckItAI développe un détecteur de désinformation multimodal : il lit le texte",
+            "   d'une publication et regarde son image.",
+            "• Sans alimentation continue, le jeu de données vieillit et le modèle se dégrade.",
+            "• Mission : un pipeline ETL qui collecte, nettoie et stocke ces publications",
+            "   chaque jour, sans intervention.",
         ],
     )
     slide_contenu(
         prs,
-        "Architecture du pipeline",
+        "Quatre sources, quatre méthodes d'accès",
         [
-            "1. Extract — 3 sources officielles : flux RSS, API NewsData.io, dataset FakeNewsNet.",
-            "2. Transform — nettoyage, validation image, normalisation vers un schéma unique.",
-            "3. Load — chargement en base relationnelle (SQLite local / PostgreSQL-Supabase).",
-            "4. Orchestration — DAG Apache Airflow planifié quotidiennement (Docker).",
-            "5. Pilotage — tableau de bord KPI (Streamlit) + plan de monitoring.",
-            "Stack : uv · ruff · pytest · pre-commit · Airflow · Streamlit · Docker.",
+            "• Flux RSS (The Guardian, BBC, ABC News) — volume et fraîcheur, sans clé.",
+            "• API NewsData.io — actualité déjà normalisée, avec quota à surveiller.",
+            "• FakeNewsNet, téléchargé depuis GitHub — vérité terrain académique.",
+            "• Fakeddit, export Kaggle déposé localement — volume multimodal annoté.",
+            "",
+            "Aucun scraping : coût de maintenance permanent, conditions d'utilisation, et les",
+            "flux officiels exposent déjà la même donnée.",
         ],
     )
     slide_contenu(
         prs,
-        "Étape 1 — Qualifier les sources",
+        "Extraction — le texte ET l'image",
         [
-            "• Flux RSS (The Guardian, BBC News, ABC News) : texte + image, officiel, sans clé.",
-            "• API NewsData.io : actualité JSON multilingue avec image_url.",
-            "• FakeNewsNet : la vérité terrain (real / fake) — apprentissage supervisé.",
-            "• Canaux officiels privilégiés, pas de scraping ; distinction opinion vs désinformation.",
+            "• Un module par source, une fonction fetch_* ; chaque source isolée en try/except.",
+            "• Les images sont téléchargées et ouvertes avec Pillow : une URL ne prouve rien.",
+            "• Le JSON brut porte le texte et le chemin du fichier image, en relatif —",
+            "   le jeu de données reste valable hors de la machine qui l'a produit.",
+            "• FakeNewsNet ne contient aucune image : elle est retrouvée dans la balise",
+            "   og:image publiée par l'éditeur. Rendement mesuré : environ une sur trois.",
         ],
     )
     slide_contenu(
         prs,
-        "Étapes 2 & 3 — Extraction & transformation",
+        "Transformation — lecture, traitement, export",
         [
-            "• Code modulaire : un connecteur par source, fonctions fetch_* isolées (try/except + logs).",
-            "• Transformation en 3 temps : lecture → traitement → export.",
-            "• Petites fonctions nommées : nettoie_texte(), valide_image(), extrait_domaine().",
-            "• Mode multimodal strict : garantit le lien texte-image (champ has_image).",
-            "• Paramètres configurables ; export Parquet/CSV ; pipeline reproductible et testé.",
+            "• Petites fonctions nommées : nettoie_texte(), valide_image(), normalise_date(),",
+            "   normalise_langue(), normalise_label().",
+            "• valide_image() vérifie que le fichier est sur le disque, pas que l'URL existe :",
+            "   c'est ce qui garantit l'association texte-image.",
+            "• Paramètres configurables, journalisation à chaque étape, export en Parquet.",
         ],
     )
     slide_image(
         prs,
-        "Étape 3 — Schéma conceptuel des données",
+        "Le schéma conceptuel",
         SCHEMA_PNG,
-        "Modèle conceptuel : PUBLICATION au cœur, lien texte-image garanti (1—1), label optionnel.",
+        "PUBLICATION au cœur ; les relations 1—1 avec le texte et l'image expriment la règle "
+        "du jeu de données. Diagramme généré depuis le code.",
     )
     slide_contenu(
         prs,
-        "Étape 4 — Orchestration Airflow",
+        "Chargement — un modèle relationnel qui s'enrichit",
         [
-            "• DAG checkitai_etl : 4 tâches distinctes extract → transform → load → metriques.",
-            "• Réutilise directement les fonctions du package (mêmes que les scripts).",
-            "• Planification quotidienne (@daily), reprises automatiques (retries).",
-            "• Exécution locale via Docker ; chargement en base sécurisable (auth, rôles, chiffrage).",
+            "• Une table par entité du schéma, reliées par id et source_id.",
+            "• Plus une table à plat, prête pour l'entraînement et le tableau de bord.",
+            "• Chargement incrémental : seules les publications inconnues sont ajoutées.",
+            "   Deuxième exécution : 179 collectées, 14 réellement nouvelles.",
+            "• Sécurité : pas de secret en dur, rôle applicatif limité, noms de tables validés.",
         ],
     )
     slide_contenu(
         prs,
-        "Étape 5 — KPI & monitoring",
+        "Orchestration — des tâches vraiment indépendantes",
         [
-            "• KPI qualité : taux de validité, taux d'association texte-image, taux labellisé.",
-            "• KPI performance : durée par étape, débit, appels API (coût).",
-            "• Tableau de bord Streamlit lisible pour un public non technique.",
-            "• Plan de monitoring : seuils d'alerte 🟢🟠🔴, gestion d'erreurs, fréquences, dérive (Evidently).",
+            "• DAG checkitai_etl : extraction → transformation → chargement → métriques → nettoyage.",
+            "• Aucune donnée ne passe par XCom : chaque étape écrit son résultat dans",
+            "   data/interim/ et l'étape suivante relit ce fichier.",
+            "• N'importe quelle tâche se rejoue seule, et retombe sur le dernier artefact",
+            "   archivé si le fichier temporaire a été nettoyé.",
+            "• La dernière tâche vide la zone de transit une fois les fichiers consommés.",
         ],
     )
     slide_contenu(
         prs,
-        "Démonstration — résultats réels",
+        "KPI & monitoring",
         [
-            "• 6 sources contributrices : The Guardian, BBC, ABC News, NewsData.io, PolitiFact, GossipCop.",
-            "• 142 publications brutes collectées → 141 publications valides multimodales.",
-            "• ~99 % de validité et 100 % d'association texte-image (mode strict).",
-            "• Pipeline complet exécuté en ~2 secondes ; 1 appel API consommé.",
-            "• Données chargées en base et visualisées dans le tableau de bord.",
+            "• Qualité : validité, association texte-image, images réellement obtenues.",
+            "• Volume et diversité : concentration des sources — un jeu capté par un seul",
+            "   éditeur transmet son biais au modèle.",
+            "• Fraîcheur : âge médian des publications ingérées.",
+            "• Performance et coût : durée par étape, quota d'API, disque occupé.",
+            "• Les seuils sont définis dans le code : le plan de monitoring et le tableau de",
+            "   bord lisent le même dictionnaire et ne peuvent pas diverger.",
         ],
     )
     slide_contenu(
         prs,
-        "Bilan — difficultés & points forts",
+        "Résultats d'une exécution réelle",
         [
-            "• Difficulté : extraire l'image des flux RSS (emplacements multiples) — fonction dédiée.",
-            "• Difficulté : exécuter Airflow proprement en local — résolu via Docker Compose.",
-            "• Point fort : architecture modulaire réutilisée à l'identique par scripts, notebooks et DAG.",
-            "• Point fort : robustesse (sources isolées, logs, tests) et reproductibilité (uv, config).",
-            "• Suite : enrichir les labels (Hugging Face), brancher Evidently, déployer sur Supabase.",
+            "• 179 publications collectées auprès des 4 sources, 130 retenues.",
+            "• 100 % d'association texte-image ; 92 % des images demandées obtenues.",
+            "• Âge médian des publications : 16 heures.",
+            "• Pipeline complet en 60 secondes, 1 appel d'API consommé, 4 Mo d'images.",
+            "• DAG exécuté dans Airflow : 5 tâches en succès, DagRun en state=success.",
         ],
     )
-    slide_titre(prs, "Merci !", "Questions & démonstration en direct du pipeline")
+    slide_contenu(
+        prs,
+        "Ce que j'en retiens",
+        [
+            "• Le plus difficile : rendre les tâches Airflow réellement indépendantes.",
+            "   XCom paraissait naturel, mais il enchaînait les tâches.",
+            "• L'imprévu : FakeNewsNet, la référence du domaine, ne contient aucune image.",
+            "• Deux pièges d'environnement : Docker ne monte pas un dossier Google Drive, et",
+            "   installer les dépendances au démarrage cassait la version de SQLAlchemy d'Airflow.",
+            "• À surveiller : la concentration des sources, suivie comme un KPI à part entière.",
+            "• Suite : déposer le Fakeddit complet, paralléliser l'extraction.",
+        ],
+    )
+    slide_titre(prs, "Merci", "Questions et démonstration en direct du pipeline")
 
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     sortie = REPORTS_DIR / "presentation.pptx"
     prs.save(sortie)
-    print(
-        f"[ok] présentation enregistrée : {sortie} ({len(prs.slides.__iter__.__self__._sldIdLst)} diapositives)"
-    )
+    print(f"[ok] présentation enregistrée : {sortie} ({len(prs.slides)} diapositives)")
 
 
 if __name__ == "__main__":
