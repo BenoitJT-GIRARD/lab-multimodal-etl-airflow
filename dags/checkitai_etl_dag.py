@@ -1,4 +1,4 @@
-"""DAG Airflow — orchestration du pipeline ETL CheckItAI (livrable 5).
+"""DAG Airflow — orchestration du pipeline ETL CheckItAI.
 
 Le DAG automatise le flux **Extract → Transform → Load**, puis consolide les
 métriques et fait le ménage. Il **reprend directement les fonctions** du package

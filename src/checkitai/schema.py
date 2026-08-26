@@ -3,7 +3,7 @@
 Ce module est la **source unique de vérité** du jeu de données : il décrit chaque
 champ (nom, type, rôle dans le cas d'usage IA) et fournit la structure
 :class:`Publication` utilisée en sortie de transformation. Le schéma conceptuel
-(livrable 4) et la documentation sont générés à partir de :data:`FIELDS`, ce qui
+et la documentation sont générés à partir de :data:`FIELDS`, ce qui
 garantit que diagramme, code et données restent toujours alignés.
 
 Chaque champ est rattaché à une **entité conceptuelle** (:data:`ENTITES`) : c'est

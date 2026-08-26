@@ -1,4 +1,4 @@
-"""Tableau de bord KPI du pipeline ETL (livrable 6).
+"""Tableau de bord KPI du pipeline ETL.
 
 Application Streamlit qui visualise les indicateurs de performance du pipeline
 d'extraction multimodale. Elle est pensée pour être lisible **par un public non
