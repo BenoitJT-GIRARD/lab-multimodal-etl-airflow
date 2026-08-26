@@ -90,6 +90,12 @@ def main() -> None:
                 if annexe.exists():
                     _copie(annexe, dossier / f"{NOM_PRENOM}_{numero}_{libelle}_{DATE_TAG}{ext}")
 
+        # Annexe du flux ETL : les journaux d'exécution du DAG dans Airflow.
+        if libelle == "flux_etl_airflow":
+            preuve = ROOT / "docs" / "preuve_execution_airflow.md"
+            if preuve.exists():
+                _copie(preuve, dossier / f"{NOM_PRENOM}_{numero}_{libelle}_preuve_{DATE_TAG}.md")
+
     if manquants:
         print(f"[warn] livrables introuvables (à générer d'abord) : {manquants}")
 
