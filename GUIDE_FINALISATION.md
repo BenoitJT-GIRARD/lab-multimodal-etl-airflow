@@ -1,16 +1,28 @@
 # Actions restantes avant le dépôt
 
-Le projet est complet et fonctionnel : le pipeline tourne de bout en bout, le DAG
-s'exécute dans Airflow, les sept livrables sont produits et l'archive de dépôt est
-générée. Ce mémo liste ce qui reste — des actions qui dépendent d'un compte en ligne,
-d'un navigateur ou d'un choix personnel, et qu'aucun script ne peut faire à ma place.
+Le projet est complet : le pipeline tourne de bout en bout sur des données réelles, le
+DAG s'exécute dans Airflow avec journaux et captures d'écran à l'appui, les sept
+livrables sont produits et l'archive de dépôt est générée.
+
+Ce mémo liste ce qui reste, et rien n'y est bloquant.
 
 ---
 
-## 1. Captures d'écran de l'interface Airflow
+## 1. Re-télécharger le jeu Fakeddit sur une autre machine
 
-Le livrable n°5 demande des preuves d'exécution. Les journaux sont déjà archivés dans
-`docs/preuve_execution_airflow.md` ; il manque les copies d'écran.
+Le pipeline tourne aujourd'hui sur les **données réelles** : le fichier
+`multimodal_test_public.tsv` (15,6 Mo) est présent dans `data/raw/kaggle/`. Comme `data/`
+est ignoré par git, il ne suit pas le dépôt. Sur une autre machine, le re-télécharger
+(procédure au §4.4 du rapport d'exploration) et le déposer au même endroit.
+
+Sans ce fichier, le pipeline continue de fonctionner : le connecteur bascule
+automatiquement sur l'échantillon de démonstration versionné.
+
+---
+
+## 2. Refaire des captures Airflow *(seulement si besoin)*
+
+Les captures du livrable n°5 sont déjà dans `reports/figures/airflow/`. Pour les refaire :
 
 Airflow doit être lancé depuis une copie du projet sur un **disque local** — Docker ne
 monte pas un dossier Google Drive (détaillé au §1 du runbook).
@@ -20,18 +32,9 @@ docker compose -f docker/docker-compose.airflow.yaml build
 docker compose -f docker/docker-compose.airflow.yaml up -d
 ```
 
-Sur <http://localhost:8080> (`airflow` / `airflow`), déclencher `checkitai_etl` puis
-capturer la vue **Graph** (cinq tâches vertes), la vue **Grid** et le **log** de la tâche
-`chargement`. Ranger les images dans `reports/figures/airflow/`.
-
----
-
-## 2. Déposer le jeu Fakeddit complet *(optionnel)*
-
-Le connecteur Kaggle lit un échantillon de démonstration tant que le jeu réel n'est pas
-là. Pour passer sur les vraies données : télécharger un `.tsv` depuis
-<https://www.kaggle.com/datasets/vanshikavmittal/fakeddit-dataset>, le déposer dans
-`data/raw/kaggle/`, et relancer le pipeline. Le connecteur bascule tout seul.
+Sur <http://localhost:8080> (`airflow` / `airflow`), activer puis déclencher
+`checkitai_etl`, et capturer la vue **Graph**, la vue **Grid** et le **log** de la tâche
+`chargement`.
 
 ---
 
