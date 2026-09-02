@@ -63,7 +63,7 @@ services:
         airflow users create \
           --username airflow --password airflow \
           --firstname Benoit --lastname Girard \
-          --role Admin --email bijeytis@gmail.com || true
+          --role Admin --email airflow@example.com || true
     restart: on-failure
 
   airflow-webserver:
