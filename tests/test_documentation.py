@@ -40,7 +40,7 @@ def test_le_plan_de_monitoring_documente_chaque_seuil() -> None:
     assert not manquants, f"seuils absents du plan de monitoring : {manquants}"
 
 
-def test_les_livrables_attendus_sont_presents() -> None:
+def test_the_documents_the_readme_points_at_all_exist() -> None:
     attendus = [
         DOCS / "rapport_exploration_sources.md",
         DOCS / "schema_donnees.mmd",
@@ -51,7 +51,7 @@ def test_les_livrables_attendus_sont_presents() -> None:
         PROJECT_ROOT / "dashboard" / "app.py",
     ]
     manquants = [chemin.name for chemin in attendus if not chemin.exists()]
-    assert not manquants, f"livrables manquants : {manquants}"
+    assert not manquants, f"documents manquants : {manquants}"
 
 
 def test_aucun_document_ne_reference_un_fichier_disparu() -> None:

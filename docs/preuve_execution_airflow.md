@@ -1,6 +1,6 @@
 # Preuve d'exécution du DAG dans Apache Airflow
 
-**Livrable n°5** — journaux d'exécution du DAG `multimodal_etl`.
+journaux d'exécution du DAG `multimodal_etl`.
 
 Environnement : Apache Airflow 2.10.4, `LocalExecutor`, base de métadonnées PostgreSQL,
 image construite depuis `docker/Dockerfile`. Procédure complète dans

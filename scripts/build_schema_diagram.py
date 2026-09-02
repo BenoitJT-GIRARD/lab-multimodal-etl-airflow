@@ -1,4 +1,4 @@
-"""Genere le schema conceptuel des donnees (livrable 4).
+"""Genere le schema conceptuel des donnees.
 
 Le diagramme est construit a partir de :data:`multimodal_etl.schema.FIELDS` (source
 unique de verite) : code, documentation et schema restent ainsi toujours alignes.

@@ -1,4 +1,4 @@
-"""Étape 1 seule — extraction (livrable 2).
+"""Étape 1 seule — extraction.
 
 Collecte les publications multimodales des quatre sources, télécharge les images
 associées et écrit le résultat en JSON brut dans ``data/raw/``. S'exécute sans

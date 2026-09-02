@@ -1,6 +1,5 @@
 # Multimodal ETL — extraction de données multimodales pour la détection de fake news
 
-Projet OpenClassrooms n°12 — *Extrayez des données multimodales de sites web*.
 
 Ingénieur data junior chez **Multimodal ETL**, start-up qui développe des outils de détection
 de désinformation. Objectif : construire un **pipeline ETL automatisé** qui récupère des
@@ -41,9 +40,9 @@ multimodal_etl/
 │   ├── pipeline.py         # les 5 étapes, appelées par les scripts ET par le DAG
 │   └── kpi.py              # indicateurs et seuils d'alerte
 ├── scripts/                # points d'entrée en ligne de commande
-├── dags/                   # DAG Airflow (livrable 5)
+├── dags/                   # DAG Airflow
 ├── docker/                 # image et docker-compose Airflow
-├── dashboard/              # application Streamlit (livrable 6)
+├── dashboard/              # application Streamlit
 ├── notebooks/              # déroulé pédagogique étape par étape
 ├── docs/                   # rapport, schéma, monitoring, preuves, démonstration
 ├── data/                   # raw / interim / processed / db / samples (ignorés par git)
@@ -90,19 +89,6 @@ uv run ruff format .         # formatage
 uv run bandit -c pyproject.toml -r src
 ```
 
-## Livrables
-
-| # | Livrable | Emplacement |
-|---|----------|-------------|
-| 1 | Rapport d'exploration de sources | `docs/rapport_exploration_sources.md` |
-| 2 | Scripts d'extraction automatisée | `src/multimodal_etl/sources/`, `notebooks/02_extraction.ipynb` |
-| 3 | Pipeline de transformation reproductible | `src/multimodal_etl/transform.py`, `notebooks/03_transformation.ipynb` |
-| 4 | Schéma de données finalisé | `docs/schema_donnees.mmd` (+ PNG / PDF) et `docs/schema_donnees.md` |
-| 5 | Flux ETL Airflow | `dags/multimodal_etl_dag.py`, `docs/preuve_execution_airflow.md` |
-| 6 | Tableau de bord KPI | `dashboard/app.py`, `notebooks/04_kpi.ipynb` |
-| 7 | Plan de monitoring | `docs/plan_monitoring.md` |
-
-L'archive de dépôt est dans `reports/Girard_Benoit_12_202600820/`.
 
 ## Licence
 

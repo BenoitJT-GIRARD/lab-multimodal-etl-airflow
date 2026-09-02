@@ -2,7 +2,7 @@
 
 **Projet :** Multimodal ETL — extraction de données multimodales pour un détecteur de fake news
 **Auteur :** Benoit Girard — ingénieur data junior
-**Livrable n°1** — étape 1 de la mission
+étape 1 de la mission
 
 ---
 
@@ -28,7 +28,7 @@ et les sources qui en fournissent une sont un bonus, pas un critère de sélecti
 | `domain` | fiabilité | le domaine de l'éditeur est un signal en soi |
 | `label` | cible | quand la source en fournit une |
 
-Le schéma complet figure au livrable n°4 (`schema_donnees.md`).
+Le schéma complet figure dans `schema_donnees.md`.
 
 ---
 

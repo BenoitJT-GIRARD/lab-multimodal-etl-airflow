@@ -1,4 +1,4 @@
-"""Étape 2 seule — transformation (livrable 3).
+"""Étape 2 seule — transformation.
 
 Reprend le fichier brut déposé par l'extraction (ou, à défaut, la dernière
 extraction archivée dans ``data/raw/``) et produit le dataset propre dans
