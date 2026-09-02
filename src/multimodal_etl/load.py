@@ -1,9 +1,9 @@
 """Étape L — chargement (stockage dans une base adaptée).
 
 Le dataset transformé est chargé dans une base **relationnelle** via SQLAlchemy.
-Par défaut on cible un **SQLite** local (``data/db/checkitai.db``) : léger, sans
+Par défaut on cible un **SQLite** local (``data/db/multimodal_etl.db``) : léger, sans
 serveur, parfait pour une démonstration reproductible. En production, il suffit de
-renseigner ``CHECKITAI_DB_URL`` pour pointer vers un **PostgreSQL** managé
+renseigner ``MULTIMODAL_ETL_DB_URL`` pour pointer vers un **PostgreSQL** managé
 (authentification, rôles et chiffrage gérés côté serveur — cf. plan de monitoring).
 
 Le choix du relationnel est cohérent avec la donnée : elle est tabulaire, de schéma
@@ -31,9 +31,9 @@ import pandas as pd
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.engine import Engine
 
-from checkitai.config import LoadConfig, ensure_dirs
-from checkitai.logging_setup import get_logger
-from checkitai.schema import ENTITES, champs_de
+from multimodal_etl.config import LoadConfig, ensure_dirs
+from multimodal_etl.logging_setup import get_logger
+from multimodal_etl.schema import ENTITES, champs_de
 
 logger = get_logger(__name__)
 
@@ -176,7 +176,7 @@ def compte_publications(config: LoadConfig | None = None) -> int:
         engine.dispose()
 
 
-def run_load(dataset_path: Path, config: LoadConfig | None = None) -> dict[str, int]:
+def load_dataset(dataset_path: Path, config: LoadConfig | None = None) -> dict[str, int]:
     """Pipeline de chargement complet : lecture du dataset puis écriture en base."""
     df = lit_dataset(dataset_path)
     return charge_en_base(df, config)

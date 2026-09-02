@@ -6,7 +6,7 @@ from datetime import UTC, datetime
 
 import pandas as pd
 
-from checkitai.kpi import (
+from multimodal_etl.kpi import (
     SEUILS,
     compute_kpis,
     evalue_seuils,
@@ -44,7 +44,7 @@ def _run_exemple() -> dict:
         "rows_loaded": 4,
         "rows_in_db": 40,
         "api_calls": 1,
-        "sources_en_echec": 0,
+        "failed_sources": 0,
         "images": {"tentees": 5, "reussies": 4, "octets": 2 * 1024 * 1024},
     }
 

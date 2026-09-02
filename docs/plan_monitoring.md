@@ -19,7 +19,7 @@ Le monitoring existe pour rendre cette dégradation visible.
 
 ## 2. Indicateurs suivis
 
-Chaque indicateur listé ici est calculé par `src/checkitai/kpi.py` et affiché par le
+Chaque indicateur listé ici est calculé par `src/multimodal_etl/kpi.py` et affiché par le
 tableau de bord. Aucun n'est décoratif : chacun déclenche une action s'il dérive.
 
 | Indicateur | Ce qu'il mesure | Ce qu'il révèle quand il dérive |
@@ -52,7 +52,7 @@ tableau de bord. Aucun n'est décoratif : chacun déclenche une action s'il dér
 | Sources en échec | 0 | 1 | ≥ 2 |
 
 > Ces seuils ne sont pas recopiés à la main dans ce document : ils sont définis **une
-> seule fois**, dans le dictionnaire `SEUILS` de `src/checkitai/kpi.py`, avec la
+> seule fois**, dans le dictionnaire `SEUILS` de `src/multimodal_etl/kpi.py`, avec la
 > justification de chacun. Le tableau de bord les lit au même endroit — le document et
 > l'application ne peuvent donc pas se contredire.
 
@@ -98,7 +98,7 @@ Le pipeline est conçu pour continuer à fonctionner dégradé plutôt que de s'
 |---|---|---|
 | Exécution du DAG | quotidienne (`schedule="@daily"`) | ordonnanceur Airflow |
 | Contrôle des KPI | après chaque exécution | tableau de bord Streamlit |
-| Revue des logs d'erreur | quotidienne | `logs/checkitai.log` et logs Airflow |
+| Revue des logs d'erreur | quotidienne | `logs/multimodal_etl.log` et logs Airflow |
 | Suivi du quota d'API | hebdomadaire | KPI « appels d'API consommés » |
 | Revue de tendance | hebdomadaire | historique des exécutions du tableau de bord |
 | Audit de dérive des données | mensuel | comparaison de distributions (§6) |
@@ -124,7 +124,7 @@ branche directement sur l'historique des jeux de données de `data/processed/`.
 ## 8. Sécurité de la base de données
 
 - **Authentification** : aucun secret en dur. Les identifiants passent par variables
-  d'environnement (`CHECKITAI_DB_URL`), et par un gestionnaire de secrets en production.
+  d'environnement (`MULTIMODAL_ETL_DB_URL`), et par un gestionnaire de secrets en production.
 - **Rôles** : un compte applicatif limité en lecture/écriture aux tables du pipeline,
   distinct du compte administrateur.
 - **Chiffrement** : TLS pour les connexions, chiffrement au repos — proposé par défaut

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from checkitai.schema import COLUMNS, ENTITES, FIELDS, Publication, champs_de
+from multimodal_etl.schema import COLUMNS, ENTITES, FIELDS, Publication, champs_de
 
 
 def _publication_exemple() -> Publication:

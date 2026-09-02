@@ -1,8 +1,8 @@
-# CheckItAI — extraction de données multimodales pour la détection de fake news
+# Multimodal ETL — extraction de données multimodales pour la détection de fake news
 
 Projet OpenClassrooms n°12 — *Extrayez des données multimodales de sites web*.
 
-Ingénieur data junior chez **CheckItAI**, start-up qui développe des outils de détection
+Ingénieur data junior chez **Multimodal ETL**, start-up qui développe des outils de détection
 de désinformation. Objectif : construire un **pipeline ETL automatisé** qui récupère des
 publications **multimodales (texte + image)** depuis plusieurs sources, les transforme en
 un jeu de données propre et structuré, puis les charge dans une base — le tout orchestré
@@ -27,8 +27,8 @@ Pillow, et une publication sans image n'entre pas dans le jeu de données.
 ## Structure
 
 ```
-checkitai/
-├── src/checkitai/          # le pipeline
+multimodal_etl/
+├── src/multimodal_etl/          # le pipeline
 │   ├── config.py           # chemins et paramètres (dataclasses immuables)
 │   ├── logging_setup.py    # journalisation centralisée
 │   ├── schema.py           # schéma des publications — source unique de vérité
@@ -78,7 +78,7 @@ Orchestration Airflow — voir `docs/runbook_airflow.md` :
 ```powershell
 docker compose -f docker/docker-compose.airflow.yaml build
 docker compose -f docker/docker-compose.airflow.yaml up -d
-# Interface : http://localhost:8080  (DAG : checkitai_etl)
+# Interface : http://localhost:8080  (DAG : multimodal_etl)
 ```
 
 ## Qualité
@@ -95,10 +95,10 @@ uv run bandit -c pyproject.toml -r src
 | # | Livrable | Emplacement |
 |---|----------|-------------|
 | 1 | Rapport d'exploration de sources | `docs/rapport_exploration_sources.md` |
-| 2 | Scripts d'extraction automatisée | `src/checkitai/sources/`, `notebooks/02_extraction.ipynb` |
-| 3 | Pipeline de transformation reproductible | `src/checkitai/transform.py`, `notebooks/03_transformation.ipynb` |
+| 2 | Scripts d'extraction automatisée | `src/multimodal_etl/sources/`, `notebooks/02_extraction.ipynb` |
+| 3 | Pipeline de transformation reproductible | `src/multimodal_etl/transform.py`, `notebooks/03_transformation.ipynb` |
 | 4 | Schéma de données finalisé | `docs/schema_donnees.mmd` (+ PNG / PDF) et `docs/schema_donnees.md` |
-| 5 | Flux ETL Airflow | `dags/checkitai_etl_dag.py`, `docs/preuve_execution_airflow.md` |
+| 5 | Flux ETL Airflow | `dags/multimodal_etl_dag.py`, `docs/preuve_execution_airflow.md` |
 | 6 | Tableau de bord KPI | `dashboard/app.py`, `notebooks/04_kpi.ipynb` |
 | 7 | Plan de monitoring | `docs/plan_monitoring.md` |
 

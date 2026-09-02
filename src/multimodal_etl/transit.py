@@ -20,8 +20,8 @@ import json
 import shutil
 from pathlib import Path
 
-from checkitai.config import INTERIM_DIR, PROCESSED_DIR, RAW_DIR
-from checkitai.logging_setup import get_logger
+from multimodal_etl.config import INTERIM_DIR, PROCESSED_DIR, RAW_DIR
+from multimodal_etl.logging_setup import get_logger
 
 logger = get_logger(__name__)
 

@@ -22,15 +22,15 @@ import streamlit as st
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from checkitai.config import chemin_absolu  # noqa: E402
-from checkitai.kpi import (  # noqa: E402
+from multimodal_etl.config import chemin_absolu  # noqa: E402
+from multimodal_etl.kpi import (  # noqa: E402
     charge_dernier_dataset,
     compute_kpis,
     evalue_seuils,
     historique_runs,
 )
 
-st.set_page_config(page_title="CheckItAI — KPI du pipeline ETL", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Multimodal ETL — KPI du pipeline ETL", page_icon="📊", layout="wide")
 
 # Pastille de couleur associée à chaque statut, pour une lecture immédiate.
 PASTILLES = {"vert": "🟢", "orange": "🟠", "rouge": "🔴"}
@@ -267,7 +267,7 @@ def section_apercu(df: pd.DataFrame) -> None:
 
 def main() -> None:
     """Construit le tableau de bord à partir des derniers artefacts du pipeline."""
-    st.title("📊 CheckItAI — Tableau de bord du pipeline d'extraction")
+    st.title("📊 Multimodal ETL — Tableau de bord du pipeline d'extraction")
     st.caption(
         "Suivi de la qualité, du volume et de la performance du pipeline ETL qui alimente "
         "le détecteur de fake news en données multimodales (texte + image)."

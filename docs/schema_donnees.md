@@ -7,7 +7,7 @@ et à quoi il sert dans le cas d'usage IA. Il est indépendant de la technologie
 stockage — il dit *ce que représentent* les données, pas comment elles sont physiquement
 écrites sur disque.
 
-Le diagramme et ce dictionnaire sont générés depuis `src/checkitai/schema.py`, qui est la
+Le diagramme et ce dictionnaire sont générés depuis `src/multimodal_etl/schema.py`, qui est la
 source unique de vérité : ajouter un champ au code le fait apparaître partout.
 Le rendu est dans `schema_donnees.mmd`, `schema_donnees.png` et `schema_donnees.pdf`.
 
@@ -100,7 +100,7 @@ Le champ booléen `has_image` rend cette garantie lisible directement dans les d
 ## 5. Du modèle conceptuel aux tables
 
 Le modèle conceptuel ci-dessus se traduit en base par une table par entité, reliées par
-`id` et `source_id` — c'est ce que produit `src/checkitai/load.py` :
+`id` et `source_id` — c'est ce que produit `src/multimodal_etl/load.py` :
 
 | Entité | Table | Clé primaire | Clé étrangère |
 |---|---|---|---|

@@ -16,8 +16,8 @@ from __future__ import annotations
 import requests
 from bs4 import BeautifulSoup
 
-from checkitai.config import ExtractionConfig
-from checkitai.logging_setup import get_logger
+from multimodal_etl.config import ExtractionConfig
+from multimodal_etl.logging_setup import get_logger
 
 logger = get_logger(__name__)
 

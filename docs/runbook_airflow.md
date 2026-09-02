@@ -1,9 +1,9 @@
-# Runbook — exécuter le DAG `checkitai_etl` avec Airflow
+# Runbook — exécuter le DAG `multimodal_etl` avec Airflow
 
 Ce guide décrit pas à pas comment lancer l'orchestration en local avec Apache Airflow, et
 comment produire les preuves d'exécution attendues au livrable n°5.
 
-Le DAG réutilise exactement les fonctions du package `checkitai` : la logique métier est
+Le DAG réutilise exactement les fonctions du package `multimodal_etl` : la logique métier est
 déjà couverte par les tests unitaires et par `scripts/run_etl.py`. Airflow n'ajoute que
 la couche d'orchestration, de planification et de reprise.
 
@@ -14,7 +14,7 @@ la couche d'orchestration, de planification et de reprise.
   situé sur un lecteur virtuel de synchronisation (Google Drive, OneDrive) : les montages
   sont créés vides, sans erreur, et le DAG n'est jamais découvert. Si le projet est
   stocké sur un tel lecteur, en copier ou en cloner une version dans un dossier local
-  (`C:\dev\checkitai`, par exemple) et lancer Airflow depuis cette copie.
+  (`C:\dev\multimodal_etl`, par exemple) et lancer Airflow depuis cette copie.
 
 ## 2. Préparer la configuration
 
@@ -54,12 +54,12 @@ docker compose -f docker/docker-compose.airflow.yaml exec airflow-scheduler airf
 docker compose -f docker/docker-compose.airflow.yaml exec airflow-scheduler airflow dags list-import-errors
 ```
 
-La première commande doit afficher `checkitai_etl`, la seconde ne rien renvoyer.
+La première commande doit afficher `multimodal_etl`, la seconde ne rien renvoyer.
 
 ## 5. Depuis l'interface
 
 1. Ouvrir <http://localhost:8080> — identifiants `airflow` / `airflow`.
-2. Activer le DAG **`checkitai_etl`** puis cliquer sur **Trigger DAG**.
+2. Activer le DAG **`multimodal_etl`** puis cliquer sur **Trigger DAG**.
 3. Ouvrir la vue **Graph** : les cinq tâches s'enchaînent
    `extraction → transformation → chargement → metriques → nettoyage` et passent au vert.
 
@@ -76,14 +76,14 @@ Exécuter le DAG entier :
 
 ```powershell
 docker compose -f docker/docker-compose.airflow.yaml exec airflow-scheduler `
-  airflow dags test checkitai_etl 2026-08-20
+  airflow dags test multimodal_etl 2026-08-20
 ```
 
 Rejouer **une seule tâche**, pour vérifier qu'elle est bien indépendante des autres :
 
 ```powershell
 docker compose -f docker/docker-compose.airflow.yaml exec airflow-scheduler `
-  airflow tasks test checkitai_etl transformation 2026-08-20
+  airflow tasks test multimodal_etl transformation 2026-08-20
 ```
 
 Le résultat de ces deux commandes est archivé dans `docs/preuve_execution_airflow.md`.
@@ -92,7 +92,7 @@ Le résultat de ces deux commandes est archivé dans `docs/preuve_execution_airf
 
 - un JSON brut dans `data/raw/`, et les images dans `data/raw/images/` ;
 - un jeu de données et ses statistiques dans `data/processed/` ;
-- les tables peuplées dans `data/db/checkitai.db` ou la base `CHECKITAI_DB_URL` ;
+- les tables peuplées dans `data/db/multimodal_etl.db` ou la base `MULTIMODAL_ETL_DB_URL` ;
 - une fiche d'exécution dans `data/processed/runs/`, lue par le tableau de bord ;
 - une zone de transit `data/interim/` **vide**, la tâche `nettoyage` l'ayant purgée.
 

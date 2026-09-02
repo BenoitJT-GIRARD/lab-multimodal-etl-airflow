@@ -1,6 +1,6 @@
 # Rapport d'exploration des sources de données
 
-**Projet :** CheckItAI — extraction de données multimodales pour un détecteur de fake news
+**Projet :** Multimodal ETL — extraction de données multimodales pour un détecteur de fake news
 **Auteur :** Benoit Girard — ingénieur data junior
 **Livrable n°1** — étape 1 de la mission
 
@@ -8,7 +8,7 @@
 
 ## 1. Ce que le pipeline doit produire
 
-CheckItAI entraîne un modèle **multimodal** : il analyse conjointement le texte d'une
+Multimodal ETL entraîne un modèle **multimodal** : il analyse conjointement le texte d'une
 publication et l'image qui l'accompagne. Le jeu de données doit donc fournir, pour
 chaque publication, **un texte et une image réellement associés**.
 
@@ -62,7 +62,7 @@ changement de nom de classe CSS. L'équipe qui le maintient passe son temps à r
 qui fonctionnait la veille, sans jamais avancer. Ce mode de fonctionnement — une course
 permanente derrière les évolutions des plateformes ciblées — fragilise durablement les
 produits qui en dépendent : la donnée peut s'interrompre du jour au lendemain, sans
-préavis et sans recours. Bâtir l'ingestion de CheckItAI là-dessus, c'est accepter un
+préavis et sans recours. Bâtir l'ingestion de Multimodal ETL là-dessus, c'est accepter un
 risque d'exploitation que rien ne compense.
 
 **Les conditions d'utilisation.** La plupart des éditeurs interdisent l'extraction

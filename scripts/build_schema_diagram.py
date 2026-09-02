@@ -1,6 +1,6 @@
 """Genere le schema conceptuel des donnees (livrable 4).
 
-Le diagramme est construit a partir de :data:`checkitai.schema.FIELDS` (source
+Le diagramme est construit a partir de :data:`multimodal_etl.schema.FIELDS` (source
 unique de verite) : code, documentation et schema restent ainsi toujours alignes.
 On produit un fichier Mermaid ``docs/schema_donnees.mmd`` puis, si l'outil
 ``mmdc`` (mermaid-cli, via npx) est disponible, ses rendus PNG et PDF.
@@ -22,11 +22,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from checkitai.schema import ENTITES, champs_de
+from multimodal_etl.schema import ENTITES, champs_de
 
 DOCS_DIR = ROOT / "docs"
 
-# L'affectation des champs aux entites vient directement de checkitai.schema :
+# L'affectation des champs aux entites vient directement de multimodal_etl.schema :
 # ajouter un champ au schema le fait apparaitre dans le diagramme sans rien
 # modifier ici.
 

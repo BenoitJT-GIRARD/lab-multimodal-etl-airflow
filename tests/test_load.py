@@ -7,14 +7,14 @@ from pathlib import Path
 import pandas as pd
 from sqlalchemy import create_engine, text
 
-from checkitai.config import LoadConfig
-from checkitai.load import (
+from multimodal_etl.config import LoadConfig
+from multimodal_etl.load import (
     charge_en_base,
     compte_publications,
     decoupe_en_tables,
     lit_dataset,
 )
-from checkitai.schema import COLUMNS
+from multimodal_etl.schema import COLUMNS
 
 
 def _dataset(identifiants: tuple[str, ...]) -> pd.DataFrame:

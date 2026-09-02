@@ -6,8 +6,8 @@ from pathlib import Path
 
 import feedparser
 
-from checkitai.config import ExtractionConfig
-from checkitai.sources import fakenewsnet, kaggle_fakeddit, newsdata, opengraph, rss
+from multimodal_etl.config import ExtractionConfig
+from multimodal_etl.sources import fakenewsnet, kaggle_fakeddit, newsdata, opengraph, rss
 
 FLUX_RSS_EXEMPLE = """<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">

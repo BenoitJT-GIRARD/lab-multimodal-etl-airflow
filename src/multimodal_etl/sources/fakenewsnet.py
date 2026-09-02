@@ -10,7 +10,7 @@ Deux particularités traitées ici, et elles sont typiques du métier :
 
 1. les CSV ne contiennent **ni texte long ni image** — seulement l'identifiant,
    l'URL de l'article et son titre. L'image est donc retrouvée dans les
-   métadonnées Open Graph de l'article (cf. :mod:`checkitai.sources.opengraph`) ;
+   métadonnées Open Graph de l'article (cf. :mod:`multimodal_etl.sources.opengraph`) ;
 2. la colonne ``tweet_ids`` peut dépasser la taille de champ que le module ``csv``
    accepte par défaut : il faut relever explicitement cette limite.
 """
@@ -23,9 +23,9 @@ from pathlib import Path
 
 import requests
 
-from checkitai.config import RAW_DIR, ExtractionConfig
-from checkitai.logging_setup import get_logger
-from checkitai.sources import opengraph
+from multimodal_etl.config import RAW_DIR, ExtractionConfig
+from multimodal_etl.logging_setup import get_logger
+from multimodal_etl.sources import opengraph
 
 logger = get_logger(__name__)
 

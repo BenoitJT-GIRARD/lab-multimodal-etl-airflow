@@ -22,8 +22,8 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
-from checkitai.config import RAW_DIR, SAMPLES_DIR, ExtractionConfig
-from checkitai.logging_setup import get_logger
+from multimodal_etl.config import RAW_DIR, SAMPLES_DIR, ExtractionConfig
+from multimodal_etl.logging_setup import get_logger
 
 logger = get_logger(__name__)
 

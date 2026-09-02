@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 from streamlit.testing.v1 import AppTest
 
-from checkitai.config import PROJECT_ROOT
+from multimodal_etl.config import PROJECT_ROOT
 
 APPLICATION = PROJECT_ROOT / "dashboard" / "app.py"
 

@@ -9,9 +9,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from checkitai.config import PROJECT_ROOT
-from checkitai.kpi import SEUILS
-from checkitai.schema import COLUMNS
+from multimodal_etl.config import PROJECT_ROOT
+from multimodal_etl.kpi import SEUILS
+from multimodal_etl.schema import COLUMNS
 
 DOCS = PROJECT_ROOT / "docs"
 
@@ -47,7 +47,7 @@ def test_les_livrables_attendus_sont_presents() -> None:
         DOCS / "schema_donnees.md",
         DOCS / "plan_monitoring.md",
         DOCS / "preuve_execution_airflow.md",
-        PROJECT_ROOT / "dags" / "checkitai_etl_dag.py",
+        PROJECT_ROOT / "dags" / "multimodal_etl_dag.py",
         PROJECT_ROOT / "dashboard" / "app.py",
     ]
     manquants = [chemin.name for chemin in attendus if not chemin.exists()]

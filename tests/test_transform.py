@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from checkitai.config import PROJECT_ROOT, TransformConfig
-from checkitai.schema import genere_id, genere_source_id
-from checkitai.transform import (
+from multimodal_etl.config import PROJECT_ROOT, TransformConfig
+from multimodal_etl.schema import genere_id, genere_source_id
+from multimodal_etl.transform import (
     construit_publication,
     extrait_domaine,
     nettoie_texte,

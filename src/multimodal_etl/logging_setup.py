@@ -11,14 +11,14 @@ import logging
 import sys
 from logging import Logger
 
-from checkitai.config import LOGS_DIR
+from multimodal_etl.config import LOGS_DIR
 
 _FORMAT = "%(asctime)s | %(levelname)-7s | %(name)s | %(message)s"
 _FORMAT_DATE = "%Y-%m-%d %H:%M:%S"
 _configure = False
 
 
-def setup_logging(level: int = logging.INFO, logfile: str = "checkitai.log") -> None:
+def setup_logging(level: int = logging.INFO, logfile: str = "multimodal_etl.log") -> None:
     """Configure la journalisation racine (console + fichier).
 
     Idempotent : un seul appel réel, les suivants sont ignorés. On l'appelle au

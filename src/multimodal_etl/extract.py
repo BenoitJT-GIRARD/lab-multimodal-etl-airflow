@@ -16,10 +16,10 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
-from checkitai.config import RAW_DIR, ExtractionConfig, ImageConfig, ensure_dirs
-from checkitai.images import telecharge_images
-from checkitai.logging_setup import get_logger
-from checkitai.sources import fakenewsnet, kaggle_fakeddit, newsdata, rss
+from multimodal_etl.config import RAW_DIR, ExtractionConfig, ImageConfig, ensure_dirs
+from multimodal_etl.images import telecharge_images
+from multimodal_etl.logging_setup import get_logger
+from multimodal_etl.sources import fakenewsnet, kaggle_fakeddit, newsdata, rss
 
 logger = get_logger(__name__)
 
@@ -66,7 +66,7 @@ def collecte_sources(config: ExtractionConfig | None = None) -> tuple[list[dict]
     return publications, bilan
 
 
-def sources_en_echec(bilan: dict[str, int]) -> int:
+def failed_sources(bilan: dict[str, int]) -> int:
     """Compte les sources réellement en panne, pour l'alerte du plan de monitoring.
 
     Une source volontairement **désactivée** n'est pas une panne : NewsData.io ne
@@ -108,7 +108,7 @@ def run_extraction(config: ExtractionConfig | None = None) -> tuple[Path, dict[s
     compte_rendu: dict[str, object] = {
         "publications_extraites": len(publications),
         "bilan_sources": bilan,
-        "sources_en_echec": sources_en_echec(bilan),
+        "failed_sources": failed_sources(bilan),
         "images": compteurs_images,
         "fichier_brut": str(chemin),
     }

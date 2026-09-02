@@ -2,7 +2,7 @@
 #
 # Configuration volontairement minimale et lisible (un seul scheduler + webserver
 # + une base de metadonnees PostgreSQL), suffisante pour faire tourner le DAG
-# `checkitai_etl` en local et produire des preuves d'execution (logs, UI).
+# `multimodal_etl` en local et produire des preuves d'execution (logs, UI).
 #
 # Demarrage :  docker compose -f docker/docker-compose.airflow.yaml up -d
 # Interface :  http://localhost:8080  (identifiants : airflow / airflow)
@@ -10,7 +10,7 @@
 
 x-airflow-common: &airflow-common
   # Image Airflow officielle enrichie des dependances du pipeline (cf. Dockerfile).
-  image: checkitai/airflow:2.10.4
+  image: multimodal_etl/airflow:2.10.4
   build:
     context: .
     dockerfile: Dockerfile
@@ -19,11 +19,11 @@ x-airflow-common: &airflow-common
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
-    # Le package checkitai est rendu importable via le code source monte.
+    # Le package multimodal_etl est rendu importable via le code source monte.
     PYTHONPATH: /opt/airflow/project/src
     # Cle NewsData.io transmise depuis docker/.env (source API optionnelle).
     NEWSDATA_API_KEY: ${NEWSDATA_API_KEY:-}
-    CHECKITAI_DB_URL: ${CHECKITAI_DB_URL:-}
+    MULTIMODAL_ETL_DB_URL: ${MULTIMODAL_ETL_DB_URL:-}
   volumes:
     - ../dags:/opt/airflow/dags
     # Les journaux Airflow restent dans un volume Docker : les monter sur le disque

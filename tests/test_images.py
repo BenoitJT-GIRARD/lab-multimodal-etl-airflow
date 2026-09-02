@@ -7,8 +7,8 @@ from pathlib import Path
 
 from PIL import Image
 
-from checkitai import images
-from checkitai.config import PROJECT_ROOT, ImageConfig, chemin_absolu
+from multimodal_etl import images
+from multimodal_etl.config import PROJECT_ROOT, ImageConfig, chemin_absolu
 
 
 class ReponseFactice:

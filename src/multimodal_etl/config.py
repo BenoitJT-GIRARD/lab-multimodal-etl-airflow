@@ -12,7 +12,7 @@ import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
-# Racine du projet = deux niveaux au-dessus de ce fichier (src/checkitai/config.py).
+# Racine du projet = deux niveaux au-dessus de ce fichier (src/multimodal_etl/config.py).
 PROJECT_ROOT: Path = Path(__file__).resolve().parents[2]
 
 DATA_DIR: Path = PROJECT_ROOT / "data"
@@ -68,12 +68,16 @@ class ExtractionConfig:
 
     # Nombre maximum d'éléments collectés par source (garde-fou contre les quotas API).
     max_items_per_source: int = field(
-        default_factory=lambda: _env_int("CHECKITAI_MAX_ITEMS_PER_SOURCE", 50)
+        default_factory=lambda: _env_int("MULTIMODAL_ETL_MAX_ITEMS_PER_SOURCE", 50)
     )
     # Délai d'attente (secondes) pour chaque requête réseau.
-    request_timeout: int = field(default_factory=lambda: _env_int("CHECKITAI_REQUEST_TIMEOUT", 15))
+    request_timeout: int = field(
+        default_factory=lambda: _env_int("MULTIMODAL_ETL_REQUEST_TIMEOUT", 15)
+    )
     # En-tête User-Agent : politesse minimale vis-à-vis des serveurs interrogés.
-    user_agent: str = "CheckItAI-bot/0.1 (+https://github.com/checkitai; projet pédagogique)"
+    user_agent: str = (
+        "Multimodal ETL-bot/0.1 (+https://github.com/multimodal_etl; projet pédagogique)"
+    )
     # Flux RSS multimodaux (titre + résumé + image) — sources officielles, sans clé.
     rss_feeds: tuple[tuple[str, str], ...] = (
         ("the_guardian", "https://www.theguardian.com/world/rss"),
@@ -97,7 +101,7 @@ class ExtractionConfig:
     # Open Graph de l'article. L'opération coûte une requête HTTP par publication,
     # on la plafonne donc pour garder un run court.
     max_enrichissements_open_graph: int = field(
-        default_factory=lambda: _env_int("CHECKITAI_MAX_OPEN_GRAPH", 40)
+        default_factory=lambda: _env_int("MULTIMODAL_ETL_MAX_OPEN_GRAPH", 40)
     )
 
 
@@ -109,14 +113,18 @@ class ImageConfig:
     # Le plafond doit rester au-dessus du volume collecté (environ 180 publications avec
     # les réglages par défaut) : sinon les dernières sources traitées n'obtiennent aucune
     # image et disparaissent du jeu de données.
-    max_images: int = field(default_factory=lambda: _env_int("CHECKITAI_MAX_IMAGES", 250))
+    max_images: int = field(default_factory=lambda: _env_int("MULTIMODAL_ETL_MAX_IMAGES", 250))
     # Délai d'attente (secondes) d'un téléchargement d'image.
-    request_timeout: int = field(default_factory=lambda: _env_int("CHECKITAI_REQUEST_TIMEOUT", 15))
+    request_timeout: int = field(
+        default_factory=lambda: _env_int("MULTIMODAL_ETL_REQUEST_TIMEOUT", 15)
+    )
     # Taille maximale acceptée pour un fichier image (Mo).
     taille_max_mo: float = 5.0
     # Types MIME acceptés (contrôle avant écriture sur disque).
     types_mime_acceptes: tuple[str, ...] = ("image/jpeg", "image/png", "image/webp", "image/gif")
-    user_agent: str = "CheckItAI-bot/0.1 (+https://github.com/checkitai; projet pédagogique)"
+    user_agent: str = (
+        "Multimodal ETL-bot/0.1 (+https://github.com/multimodal_etl; projet pédagogique)"
+    )
 
 
 @dataclass(frozen=True)
@@ -135,8 +143,8 @@ class TransformConfig:
 class LoadConfig:
     """Paramètres de l'étape de chargement (L)."""
 
-    # URL SQLAlchemy de la base cible. Vide -> SQLite local (data/db/checkitai.db).
-    db_url: str = field(default_factory=lambda: os.environ.get("CHECKITAI_DB_URL", "").strip())
+    # URL SQLAlchemy de la base cible. Vide -> SQLite local (data/db/multimodal_etl.db).
+    db_url: str = field(default_factory=lambda: os.environ.get("MULTIMODAL_ETL_DB_URL", "").strip())
     # Table « à plat », prête pour l'entraînement du modèle.
     table_name: str = "publications"
 
@@ -145,7 +153,7 @@ class LoadConfig:
         """Renvoie l'URL de connexion effective (SQLite local par défaut)."""
         if self.db_url:
             return self.db_url
-        return f"sqlite:///{(DB_DIR / 'checkitai.db').as_posix()}"
+        return f"sqlite:///{(DB_DIR / 'multimodal_etl.db').as_posix()}"
 
 
 def ensure_dirs() -> None:

@@ -23,8 +23,8 @@ from urllib.parse import urlparse
 import requests
 from PIL import Image, UnidentifiedImageError
 
-from checkitai.config import IMAGES_DIR, ImageConfig, chemin_relatif, ensure_dirs
-from checkitai.logging_setup import get_logger
+from multimodal_etl.config import IMAGES_DIR, ImageConfig, chemin_relatif, ensure_dirs
+from multimodal_etl.logging_setup import get_logger
 
 logger = get_logger(__name__)
 

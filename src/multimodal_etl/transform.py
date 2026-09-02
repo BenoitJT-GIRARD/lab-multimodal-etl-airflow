@@ -1,7 +1,7 @@
 """Étape T — transformation (nettoyage, validation, normalisation).
 
 Pipeline reproductible et journalisé qui convertit les publications brutes en un
-jeu de données propre et structuré, conforme au :mod:`checkitai.schema`. Il est
+jeu de données propre et structuré, conforme au :mod:`multimodal_etl.schema`. Il est
 organisé en trois temps explicites — **lecture**, **traitement**, **export** — et
 modularisé en petites fonctions (``nettoie_texte``, ``valide_image``, ...) afin que
 chaque transformation soit lisible, testable et tracée dans les logs.
@@ -19,9 +19,9 @@ import pandas as pd
 import tldextract
 from bs4 import BeautifulSoup
 
-from checkitai.config import PROCESSED_DIR, TransformConfig, chemin_absolu, ensure_dirs
-from checkitai.logging_setup import get_logger
-from checkitai.schema import COLUMNS, Publication, genere_id, genere_source_id
+from multimodal_etl.config import PROCESSED_DIR, TransformConfig, chemin_absolu, ensure_dirs
+from multimodal_etl.logging_setup import get_logger
+from multimodal_etl.schema import COLUMNS, Publication, genere_id, genere_source_id
 
 logger = get_logger(__name__)
 

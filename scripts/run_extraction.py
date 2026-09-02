@@ -20,14 +20,14 @@ from dotenv import load_dotenv
 
 load_dotenv(ROOT / ".env")
 
-from checkitai.logging_setup import setup_logging
-from checkitai.pipeline import etape_extraction
+from multimodal_etl.logging_setup import setup_logging
+from multimodal_etl.pipeline import run_extract
 
 
 def main() -> None:
     """Lance l'extraction et affiche un résumé de ce qui a été collecté."""
     setup_logging()
-    mesures = etape_extraction()
+    mesures = run_extract()
     images = mesures["images"]
 
     print(f"[ok] publications extraites : {mesures['publications_extraites']}")
