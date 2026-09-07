@@ -257,7 +257,7 @@ wheels = [
 ]
 
 [[package]]
-name = "checkitai"
+name = "multimodal_etl"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

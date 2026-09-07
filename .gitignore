@@ -55,7 +55,7 @@ data/db/
 *.log
 logs/
 
-# --- Reports : on garde uniquement les livrables finaux ---
+# --- Reports : on ne garde que les rapports finaux ---
 reports/Extrayez_donnees_multimodales_*/
 reports/*.zip
 
